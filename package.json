@@ -1,0 +1,27 @@
+{
+  "name": "puppetshow-notificator",
+  "version": "1.0.0",
+  "description": "Show notifier for Budapest Babszinhaz",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fentosi/puppetshow-notificator.git"
+  },
+  "author": "Adam Fentosi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fentosi/puppetshow-notificator/issues"
+  },
+  "homepage": "https://github.com/fentosi/puppetshow-notificator#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "dotenv": "^8.2.0",
+    "mustache": "^3.2.0",
+    "nodemailer": "^6.4.2"
+  }
+}
