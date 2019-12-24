@@ -1,3 +1,4 @@
 .env
 .idea
+gcp-credentials.json
 /node_modules
