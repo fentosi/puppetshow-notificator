@@ -8,7 +8,11 @@ dotenv.config();
 const dayGroups = process.env.DAY_GROUP.split(',').map((group) => group.trim());
 const ageGroups = process.env.AGE_GROUP.split(',').map((group) => group.trim());
 
-const main = async () => {
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 8080;
+
+app.get('/', async (req, res) => {
     const showsToEmail = [];
 
     const availableShows = await puppetShow.getShows(ageGroups, dayGroups);
@@ -21,13 +25,16 @@ const main = async () => {
         }
     }
 
-    if (showsToEmail.length > 0) {
-        const emailContent = mailer.getEmailContent(availableShows);
-        await mailer.sendMail(mailer.getEmail(emailContent));
-    }
-};
+    const htmlContent = mailer.getEmailContent(showsToEmail);
 
-main();
+    if (showsToEmail.length > 0) {
+        await mailer.sendMail(mailer.getEmail(htmlContent));
+    }
+
+    res.status(200).send(htmlContent.html());
+});
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 
 
