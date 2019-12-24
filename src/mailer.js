@@ -1,8 +1,6 @@
 const nodemailer = require("nodemailer");
 const dotenv = require('dotenv');
 const cheerio = require("cheerio");
-const fs = require('fs');
-const mustache = require("mustache");
 
 dotenv.config();
 
@@ -17,6 +15,7 @@ const mailServer = {
 };
 
 exports.getEmail = (email) => {
+    email = cheerio.load(email);
     return {
         from: `${process.env.SENDER_NAME} <${process.env.SENDER_EMAIL}>`,
         to: process.env.RECIPIENTS,
@@ -31,10 +30,4 @@ exports.sendMail = async (mail) => {
     await transporter.sendMail(mail);
 };
 
-exports.getEmailContent = (shows) => {
-    const emailTemplate = fs.readFileSync('src/templates/email.mustache', 'utf8');
-    const emailContent = mustache.render(emailTemplate, { shows });
-
-    return cheerio.load(emailContent);
-};
 
