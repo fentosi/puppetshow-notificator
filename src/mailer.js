@@ -16,6 +16,16 @@ const mailServer = {
     }
 };
 
+exports.getEmail = (email) => {
+    return {
+        from: `${process.env.SENDER_NAME} <${process.env.SENDER_EMAIL}>`,
+        to: process.env.RECIPIENTS,
+        subject: process.env.EMAIL_SUBJECT, // Subject line
+        text: email.text(),
+        html: email.html()
+    }
+};
+
 exports.sendMail = async (mail) => {
     let transporter = nodemailer.createTransport(mailServer);
     await transporter.sendMail(mail);
