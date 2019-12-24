@@ -10,9 +10,10 @@ const ageGroups = process.env.AGE_GROUP.split(',').map((group) => group.trim());
 const main = async () => {
     const shows = await puppetShow.getShows(ageGroups, dayGroups);
 
-    const emailContent = mailer.getEmailContent(shows);
-
-    await mailer.sendMail(mailer.getEmail(emailContent));
+    if (shows.length > 0) {
+        const emailContent = mailer.getEmailContent(shows);
+        await mailer.sendMail(mailer.getEmail(emailContent));
+    }
 };
 
 main();
