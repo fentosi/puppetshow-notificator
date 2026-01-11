@@ -1,13 +1,14 @@
 const groupHandler = require('./groupHandler');
 const cheerio = require("cheerio");
 const axios = require('axios');
+const showRepository = require('./showRepository');
 
 const fetchData = async () => {
     const result = await axios.get(process.env.SITE_URL);
     return cheerio.load(result.data);
 };
 
-exports.getShows = async (ageGroups, dayGroups) => {
+const getShows = async (ageGroups, dayGroups) => {
     const $ = await fetchData();
     let shows = [];
 
@@ -27,3 +28,18 @@ exports.getShows = async (ageGroups, dayGroups) => {
 
     return shows;
 };
+
+exports.getNewShows = async (ageGroups, dayGroups) => {
+  const newShows = [];
+
+  const availableShows = await getShows(ageGroups, dayGroups);
+  for (const availableShow of availableShows) {
+    const isInStore = await showRepository.isInStore(availableShow.date, availableShow.title);
+    if (!isInStore) {
+      await showRepository.addToStore(availableShow);
+      newShows.push(availableShow);
+    }
+  }
+
+  return newShows;
+}
