@@ -20,5 +20,7 @@ jobs:
           npm ci
       - name: Start docker
         run: npm run docker
+      - name: Create env file
+        run: cp .env.example .env
       - name: Run tests
         run: npm test
