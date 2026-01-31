@@ -105,13 +105,13 @@ describe('puppetShow', () => {
     });
 
     it('fetches data from site', async () => {
-      await getNewShows([], []);
+      await getNewShows();
 
       expect(axios.get).toHaveBeenCalledWith('https://example.com/shows');
     });
 
     it('returns all new shows when none are in store', async () => {
-      const shows = await getNewShows([], []);
+      const shows = await getNewShows();
 
       expect(shows).toHaveLength(3);
       expect(shows[0]).toEqual({
@@ -168,7 +168,7 @@ describe('puppetShow', () => {
         link: 'https://tickets.example.com/3'
       });
 
-      const shows = await getNewShows([], []);
+      const shows = await getNewShows();
 
       expect(shows).toHaveLength(0);
     });
@@ -183,7 +183,25 @@ describe('puppetShow', () => {
         link: 'https://tickets.example.com/1'
       });
 
-      const shows = await getNewShows([], []);
+      const shows = await getNewShows();
+
+      expect(shows).toHaveLength(2);
+      expect(shows[0].title).toBe('Gyerekeknek');
+      expect(shows[1].title).toBe('Nagy Gyerekeknek');
+    });
+
+    it('does not store shows if when dry run set', async () => {
+      await Show.create({
+        date: '2026.01.15.',
+        dayGroup: 'szombat',
+        hour: '19:00',
+        title: 'Babszinhaz Show',
+        ageGroup: '3+',
+        link: 'https://tickets.example.com/1'
+      });
+
+      await getNewShows([], [], true);
+      const shows = await getNewShows([], [], true);
 
       expect(shows).toHaveLength(2);
       expect(shows[0].title).toBe('Gyerekeknek');

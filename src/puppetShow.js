@@ -37,14 +37,16 @@ const getShows = async (ageGroups, dayGroups) => {
     return shows;
 };
 
-exports.getNewShows = async (ageGroups, dayGroups) => {
+exports.getNewShows = async (ageGroups = [], dayGroups = [], dryRun = false) => {
   const newShows = [];
 
   const availableShows = await getShows(ageGroups, dayGroups);
   for (const availableShow of availableShows) {
     const isInStore = await showRepository.isInStore(availableShow.date, availableShow.title);
     if (!isInStore) {
-      await showRepository.addToStore(availableShow);
+      if (!dryRun) {
+        await showRepository.addToStore(availableShow);
+      }
       newShows.push(availableShow);
     }
   }

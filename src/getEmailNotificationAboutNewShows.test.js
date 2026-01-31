@@ -26,6 +26,21 @@ describe('getEmailNotificationAboutNewShows', () => {
     expect(mailer.sendMail).toHaveBeenCalledWith({ to: 'x@y.com' });
   });
 
+  it('sends an email when there are new shows but dry mode', async () => {
+    const fakeShows = [
+      { title: 'Show 1', date: '2026.01.01.', ageGroup: '3+', link: 'https://t/1' },
+      { title: 'Show 2', date: '2026.01.02.', ageGroup: '5+', link: 'https://t/2' }
+    ];
+
+    puppetShow.getNewShows.mockResolvedValue(fakeShows);
+
+    await sendEmailNotificationAboutNewShows([], [], true);
+
+    expect(puppetShow.getNewShows).toHaveBeenCalled();
+    expect(mailer.getEmail).not.toHaveBeenCalled();
+    expect(mailer.sendMail).not.toHaveBeenCalled();
+  });
+
   it('does not send an email when there are no new shows', async () => {
     puppetShow.getNewShows.mockResolvedValue([]);
 
