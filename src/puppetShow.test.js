@@ -10,48 +10,92 @@ describe('puppetShow', () => {
     const mockHtmlResponse = `
       <html>
         <body>
-          <table id="example">
-            <tr>
-              <td>2026-01-15</td>
-              <td></td>
-              <td>Monday</td>
-              <td></td>
-              <td>3+</td>
-              <td></td>
-              <td>Babszinhaz Show</td>
-              <td><a href="https://tickets.example.com/1">Buy</a></td>
-            </tr>
-            <tr>
-              <td>2026-01-20</td>
-              <td></td>
-              <td>Saturday</td>
-              <td></td>
-              <td>5+</td>
-              <td></td>
-              <td>Gyerekeknek</td>
-              <td><a href="https://tickets.example.com/2">Buy</a></td>
-            </tr>
-            <tr>
-              <td>2026-01-25</td>
-              <td></td>
-              <td>Thursday</td>
-              <td></td>
-              <td>7+</td>
-              <td></td>
-              <td>Nagy Gyerekeknek</td>
-              <td><a href="https://tickets.example.com/3">Buy</a></td>
-            </tr>
-            <tr>
-              <td>2026-02-01</td>
-              <td></td>
-              <td>Sunday</td>
-              <td></td>
-              <td>4+</td>
-              <td></td>
-              <td>No Link Show</td>
-              <td></td>
-            </tr>
-          </table>
+          <section class="mt-105">
+            <div class="container">
+              <div class="programsColumn">
+                 <div class="row">
+                    <div class="col-12">
+                       <div class="programBox">
+                          <div class="programBoxInner">
+                             <div class="programBoxInformations">
+                                <a target="_blank" href="/eloadasok/4-babszinhaz-show">
+                                   <h4>Babszinhaz Show</h4>
+                                </a>
+                             </div>
+                          </div>
+                          <div class="programTicketLink">
+                             <p class="programBoxDate">
+                                2026.01.15.&nbsp;
+                                szombat
+                                &nbsp;19:00
+                             </p>
+                             <div class="d-none d-lg-block">
+                                <div class="ageLimit">
+                                   <span>3+</span>
+                                </div>
+                             </div>
+                             <a target="_blank" href="https://tickets.example.com/1" class="btnDisabled btn btn-primary">
+                              <span>Elfogyott</span>
+                             </a>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="col-12">
+                       <div class="programBox">
+                          <div class="programBoxInner">
+                             <div class="programBoxInformations">
+                                <a target="_blank" href="/eloadasok/13-gyerekeknek">
+                                   <h4>Gyerekeknek</h4>
+                                </a>
+                             </div>
+                          </div>
+                          <div class="programTicketLink">
+                             <p class="programBoxDate">
+                                2026.01.20.&nbsp;
+                                vasárnap
+                                &nbsp;10:30
+                             </p>
+                             <div class="d-none d-lg-block">
+                                <div class="ageLimit">
+                                   <span>5+</span>
+                                </div>
+                             </div>
+                             <a target="_blank" href="https://tickets.example.com/2" class=" btn btn-primary">
+                             <span>Jegyvásárlás</span>
+                             </a>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="col-12">
+                       <div class="programBox">
+                          <div class="programBoxInner">
+                             <div class="programBoxInformations">
+                                <a target="_blank" href="/eloadasok/13-nagy-gyerekeknek">
+                                   <h4>Nagy Gyerekeknek</h4>
+                                </a>
+                             </div>
+                          </div>
+                          <div class="programTicketLink">
+                             <p class="programBoxDate">
+                                2026.01.25.&nbsp;
+                                vasárnap
+                                &nbsp;15:00
+                             </p>
+                             <div class="d-none d-lg-block">
+                                <div class="ageLimit">
+                                   <span>9+</span>
+                                </div>
+                             </div>
+                             <a target="_blank" href="https://tickets.example.com/3" class=" btn btn-primary">
+                             <span>Jegyvásárlás</span>
+                             </a>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+            </div>
+          </section>
         </body>
       </html>
     `;
@@ -87,24 +131,27 @@ describe('puppetShow', () => {
 
       expect(shows).toHaveLength(3);
       expect(shows[0]).toEqual({
-        date: '2026-01-15',
+        date: '2026.01.15.',
+        dayGroup: 'szombat',
+        hour: '19:00',
         title: 'Babszinhaz Show',
         ageGroup: '3+',
-        dayGroup: 'Monday',
         link: 'https://tickets.example.com/1'
       });
       expect(shows[1]).toEqual({
-        date: '2026-01-20',
+        date: '2026.01.20.',
+        dayGroup: 'vasárnap',
+        hour: '10:30',
         title: 'Gyerekeknek',
         ageGroup: '5+',
-        dayGroup: 'Saturday',
         link: 'https://tickets.example.com/2'
       });
       expect(shows[2]).toEqual({
-        date: '2026-01-25',
+        date: '2026.01.25.',
+        dayGroup: 'vasárnap',
+        hour: '15:00',
         title: 'Nagy Gyerekeknek',
-        ageGroup: '7+',
-        dayGroup: 'Thursday',
+        ageGroup: '9+',
         link: 'https://tickets.example.com/3'
       });
       expect(showRepository.addToStore).toHaveBeenCalledTimes(3);
@@ -128,24 +175,28 @@ describe('puppetShow', () => {
       await getNewShows([], []);
 
       expect(showRepository.addToStore).toHaveBeenCalledWith({
-        date: '2026-01-15',
+        date: '2026.01.15.',
+        dayGroup: 'szombat',
+        hour: '19:00',
         title: 'Babszinhaz Show',
         ageGroup: '3+',
-        dayGroup: 'Monday',
         link: 'https://tickets.example.com/1'
+
       });
       expect(showRepository.addToStore).toHaveBeenCalledWith({
-        date: '2026-01-20',
+        date: '2026.01.20.',
+        dayGroup: 'vasárnap',
+        hour: '10:30',
         title: 'Gyerekeknek',
         ageGroup: '5+',
-        dayGroup: 'Saturday',
         link: 'https://tickets.example.com/2'
       });
       expect(showRepository.addToStore).toHaveBeenCalledWith({
-        date: '2026-01-25',
+        date: '2026.01.25.',
+        dayGroup: 'vasárnap',
+        hour: '15:00',
         title: 'Nagy Gyerekeknek',
-        ageGroup: '7+',
-        dayGroup: 'Thursday',
+        ageGroup: '9+',
         link: 'https://tickets.example.com/3'
       });
     });
@@ -159,21 +210,22 @@ describe('puppetShow', () => {
     });
 
     it('filters new shows by day group', async () => {
-      const shows = await getNewShows([], ['Monday']);
+      const shows = await getNewShows([], ['szombat']);
 
       expect(shows).toHaveLength(1);
-      expect(shows[0].dayGroup).toBe('Monday');
+      expect(shows[0].dayGroup).toBe('szombat');
     });
 
     it('filters new shows by both age and day groups', async () => {
-      const shows = await getNewShows(["5+"], ['Saturday']);
+      const shows = await getNewShows(['5+'], ['vasárnap']);
 
       expect(shows).toHaveLength(1);
       expect(shows[0]).toEqual({
-        date: '2026-01-20',
+        date: '2026.01.20.',
+        hour: "10:30",
         title: 'Gyerekeknek',
         ageGroup: '5+',
-        dayGroup: 'Saturday',
+        dayGroup: 'vasárnap',
         link: 'https://tickets.example.com/2'
       });
     });

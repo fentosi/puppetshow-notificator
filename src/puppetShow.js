@@ -12,16 +12,24 @@ const getShows = async (ageGroups, dayGroups) => {
     const $ = await fetchData();
     let shows = [];
 
-    $('table#example tr').each((index, row) => {
-        let title = $('td', row).eq(6).text();
-        let age = $('td', row).eq(4).text();
-        let day = $('td', row).eq(2).text();
-        let link = $('td', row).eq(7).find('a');
-        let date = $('td', row).eq(0).text();
+    $('.programsColumn .col-12').each((index, row) => {
+      let title = $('.programBoxInformations h4', row).text();
+      let dateInfo=$('.programBoxDate', row).text().split(/\r?\n/).map((dateData) => {
+        if (dateData.length > 0) {
+          return dateData.trim();
+        }
+      }).filter(dateData => dateData);
 
-        if (link.length === 1 && groupHandler.isWithinAgeGroup(ageGroups, age) && groupHandler.isWithinDayGroup(dayGroups, day)) {
+      let date = dateInfo[0];
+      let day = dateInfo[1];
+      let hour = dateInfo[2];
+
+      let age = $('.programTicketLink .ageLimit span', row).text();
+      let link = $('.programTicketLink', row).find('a');
+
+      if (link.length === 1 && groupHandler.isWithinAgeGroup(ageGroups, age) && groupHandler.isWithinDayGroup(dayGroups, day)) {
             shows.push({
-                date, title, ageGroup: age, dayGroup: day, link: $(link).attr('href')
+                date, title, dayGroup: day, hour, ageGroup: age, link: $(link).attr('href')
             });
         }
     });
