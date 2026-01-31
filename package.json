@@ -2,6 +2,7 @@
   "name": "puppetshow-notificator",
   "version": "1.0.0",
   "description": "Show notifier for Budapest Babszinhaz",
+  "packageManager": "npm@10.9.4",
   "main": "src/index.js",
   "scripts": {
     "start": "node ./src/index.js",
