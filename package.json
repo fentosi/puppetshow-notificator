@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/fentosi/puppetshow-notificator#readme",
   "dependencies": {
-    "@google-cloud/firestore": "8.2.0",
     "axios": "1.13.4",
     "cheerio": "1.2.0",
     "dotenv": "16.3.1",
