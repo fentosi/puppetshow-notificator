@@ -21,7 +21,7 @@ describe('groupHandler', () => {
       { dayGroups: ['Wednesday', 'Friday'], expectedValue: false },
     ].forEach(({ dayGroups, expectedValue }) => {
       it(`returns ${expectedValue} for dayGroup: ${JSON.stringify(dayGroups)}`, () => {
-        expect(isWithinDayGroup(dayGroups, 'Tuesday')).toBe(expectedValue);
+        expect(isWithinDayGroup(dayGroups, 'tuesday')).toBe(expectedValue);
       })
     });
   });

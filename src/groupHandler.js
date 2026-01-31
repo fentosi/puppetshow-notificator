@@ -3,5 +3,5 @@ exports.isWithinAgeGroup = (ageGroups, age) => {
 };
 
 exports.isWithinDayGroup = (dayGroups, day) => {
-    return dayGroups.length === 0 || dayGroups.includes(day);
+    return dayGroups.length === 0 || dayGroups.map(g => g.toLowerCase()).includes(day.toLowerCase());
 };
