@@ -1,7 +1,4 @@
-const dotenv = require('dotenv');
 const { Show } = require("../models/show-model");
-
-dotenv.config();
 
 exports.isInStore = async (date, title) => {
   const show = await Show

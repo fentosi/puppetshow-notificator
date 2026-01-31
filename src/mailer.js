@@ -1,8 +1,5 @@
 const nodemailer = require("nodemailer");
-const dotenv = require('dotenv');
 const cheerio = require("cheerio");
-
-dotenv.config();
 
 const mailServer = {
     host: process.env.SMTP_SERVER,
