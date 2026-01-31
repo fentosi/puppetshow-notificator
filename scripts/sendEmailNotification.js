@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const { getEmailNotificationAboutNewShows } = require("./getEmailNotificationAboutNewShows");
+const { getEmailNotificationAboutNewShows } = require("../src/getEmailNotificationAboutNewShows");
 
 dotenv.config();
 
