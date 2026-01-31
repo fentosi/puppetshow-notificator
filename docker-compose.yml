@@ -1,0 +1,6 @@
+services:
+  mongodb:
+    container_name: puppetshow-mongo
+    image: mongo:8
+    ports:
+      - 27409:27017
