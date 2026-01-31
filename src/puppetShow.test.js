@@ -107,10 +107,6 @@ describe('puppetShow', () => {
       showRepository.addToStore.mockResolvedValue();
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('fetches data from site', async () => {
       await getNewShows([], []);
 

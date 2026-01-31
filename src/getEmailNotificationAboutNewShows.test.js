@@ -8,10 +8,6 @@ jest.mock('./contentGenerator');
 jest.mock('./mailer');
 
 describe('getEmailNotificationAboutNewShows', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('sends an email when there are new shows', async () => {
     const fakeShows = [
       { title: 'Show 1', date: '2026.01.01.', ageGroup: '3+', link: 'https://t/1' },
