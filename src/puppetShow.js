@@ -8,7 +8,7 @@ const fetchData = async () => {
     return cheerio.load(result.data);
 };
 
-const getShows = async (ageGroups, dayGroups) => {
+const getShows = async (ageGroups = [], dayGroups = []) => {
     const $ = await fetchData();
     let shows = [];
 
