@@ -1,4 +1,0 @@
-cron:
-  - description: "Check for new shows"
-    url: /
-    schedule: every 6 hours
