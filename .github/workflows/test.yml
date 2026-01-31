@@ -15,17 +15,9 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
-      - name: Cache node_modules
-        id: cache_node_modules
-        uses: actions/cache@v5
-        with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        if: ${{ steps.cache_node_modules.outputs.cache-hit != 'true' }}
-        continue-on-error: true
         run: |
-          npm ci --force
+          npm ci
       - name: Start docker
         run: npm run docker
       - name: Run tests
