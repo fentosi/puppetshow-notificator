@@ -26,5 +26,7 @@ jobs:
         continue-on-error: true
         run: |
           npm ci
+      - name: Start docker
+        run: npm run docker
       - name: Run tests
         run: npm test
