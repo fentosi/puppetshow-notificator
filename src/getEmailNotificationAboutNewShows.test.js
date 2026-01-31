@@ -1,4 +1,4 @@
-const { getEmailNotificationAboutNewShows } = require('./getEmailNotificationAboutNewShows');
+const { sendEmailNotificationAboutNewShows } = require('./getEmailNotificationAboutNewShows');
 const puppetShow = require('./puppetShow');
 const contentGenerator = require('./contentGenerator');
 const mailer = require('./mailer');
@@ -18,7 +18,7 @@ describe('getEmailNotificationAboutNewShows', () => {
     mailer.getEmail.mockReturnValue({ to: 'x@y.com' });
     mailer.sendMail.mockResolvedValue();
 
-    await getEmailNotificationAboutNewShows();
+    await sendEmailNotificationAboutNewShows();
 
     expect(contentGenerator.getHtmlContent).toHaveBeenCalledWith(fakeShows);
     expect(puppetShow.getNewShows).toHaveBeenCalled();
@@ -29,7 +29,7 @@ describe('getEmailNotificationAboutNewShows', () => {
   it('does not send an email when there are no new shows', async () => {
     puppetShow.getNewShows.mockResolvedValue([]);
 
-    await getEmailNotificationAboutNewShows();
+    await sendEmailNotificationAboutNewShows();
 
     expect(puppetShow.getNewShows).toHaveBeenCalled();
     expect(mailer.getEmail).not.toHaveBeenCalled();
