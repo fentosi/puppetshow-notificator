@@ -25,7 +25,7 @@ jobs:
         if: ${{ steps.cache_node_modules.outputs.cache-hit != 'true' }}
         continue-on-error: true
         run: |
-          npm ci
+          npm ci --force
       - name: Start docker
         run: npm run docker
       - name: Run tests
