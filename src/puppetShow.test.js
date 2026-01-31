@@ -1,9 +1,8 @@
 const { getNewShows } = require('./puppetShow');
 const axios = require('axios');
-const showRepository = require('./showRepository');
+const { Show } = require("../models/show-model");
 
 jest.mock('axios');
-jest.mock('./showRepository');
 
 describe('puppetShow', () => {
   describe('getNewShows', () => {
@@ -103,23 +102,12 @@ describe('puppetShow', () => {
     beforeEach(() => {
       process.env.SITE_URL = 'https://example.com/shows';
       axios.get.mockResolvedValue({ data: mockHtmlResponse });
-      showRepository.isInStore.mockResolvedValue(false);
-      showRepository.addToStore.mockResolvedValue();
     });
 
     it('fetches data from site', async () => {
       await getNewShows([], []);
 
       expect(axios.get).toHaveBeenCalledWith('https://example.com/shows');
-    });
-
-    it('returns empty array when all shows are already in store', async () => {
-      showRepository.isInStore.mockResolvedValue(true);
-
-      const shows = await getNewShows([], []);
-
-      expect(shows).toHaveLength(0);
-      expect(showRepository.addToStore).not.toHaveBeenCalled();
     });
 
     it('returns all new shows when none are in store', async () => {
@@ -150,44 +138,28 @@ describe('puppetShow', () => {
         ageGroup: '9+',
         link: 'https://tickets.example.com/3'
       });
-      expect(showRepository.addToStore).toHaveBeenCalledTimes(3);
     });
 
-    it('returns only new shows', async () => {
-      showRepository.isInStore.mockImplementation((date, title) => {
-        return Promise.resolve(title === 'Babszinhaz Show');
-      });
-
-      const shows = await getNewShows([], []);
-
-      expect(shows).toHaveLength(2);
-      expect(shows[0].title).toBe('Gyerekeknek');
-      expect(shows[1].title).toBe('Nagy Gyerekeknek');
-      expect(showRepository.isInStore).toHaveBeenCalledTimes(3);
-      expect(showRepository.addToStore).toHaveBeenCalledTimes(2);
-    });
-
-    it('adds new shows to store', async () => {
-      await getNewShows([], []);
-
-      expect(showRepository.addToStore).toHaveBeenCalledWith({
+    it('returns empty array when all shows are already in store', async () => {
+      await Show.create({
         date: '2026.01.15.',
         dayGroup: 'szombat',
         hour: '19:00',
         title: 'Babszinhaz Show',
         ageGroup: '3+',
         link: 'https://tickets.example.com/1'
-
       });
-      expect(showRepository.addToStore).toHaveBeenCalledWith({
+
+      await Show.create({
         date: '2026.01.20.',
         dayGroup: 'vasárnap',
         hour: '10:30',
         title: 'Gyerekeknek',
         ageGroup: '5+',
         link: 'https://tickets.example.com/2'
-      });
-      expect(showRepository.addToStore).toHaveBeenCalledWith({
+      })
+
+      await Show.create({
         date: '2026.01.25.',
         dayGroup: 'vasárnap',
         hour: '15:00',
@@ -195,6 +167,27 @@ describe('puppetShow', () => {
         ageGroup: '9+',
         link: 'https://tickets.example.com/3'
       });
+
+      const shows = await getNewShows([], []);
+
+      expect(shows).toHaveLength(0);
+    });
+
+    it('returns only new shows', async () => {
+      await Show.create({
+        date: '2026.01.15.',
+        dayGroup: 'szombat',
+        hour: '19:00',
+        title: 'Babszinhaz Show',
+        ageGroup: '3+',
+        link: 'https://tickets.example.com/1'
+      });
+
+      const shows = await getNewShows([], []);
+
+      expect(shows).toHaveLength(2);
+      expect(shows[0].title).toBe('Gyerekeknek');
+      expect(shows[1].title).toBe('Nagy Gyerekeknek');
     });
 
     it('filters new shows by age group', async () => {
