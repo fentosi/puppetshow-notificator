@@ -1,16 +1,6 @@
 const nodemailer = require("nodemailer");
 const cheerio = require("cheerio");
 
-const mailServer = {
-    host: process.env.SMTP_SERVER,
-    port: process.env.SMTP_PORT,
-    secure: process.env.SMTP_SECURE,
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD
-    }
-};
-
 exports.getEmail = (email) => {
     email = cheerio.load(email);
     return {
@@ -23,7 +13,14 @@ exports.getEmail = (email) => {
 };
 
 exports.sendMail = async (mail) => {
-    let transporter = nodemailer.createTransport(mailServer);
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD
+      },
+    });
+
     await transporter.sendMail(mail);
 };
 
