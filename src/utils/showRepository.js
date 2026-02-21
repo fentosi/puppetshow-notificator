@@ -1,4 +1,4 @@
-const { Show } = require("../models/show-model");
+const { Show } = require("../../models/show-model");
 
 exports.isInStore = async (date, title) => {
   const show = await Show

@@ -1,4 +1,4 @@
-const { getHtmlContent } = require('./contentGenerator');
+const { getHtmlContent } = require('./emailContentGenerator');
 
 describe('getHtmlContent', () => {
 

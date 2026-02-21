@@ -1,11 +1,11 @@
-const { sendEmailNotificationAboutNewShows } = require('./getEmailNotificationAboutNewShows');
-const puppetShow = require('./puppetShow');
-const contentGenerator = require('./contentGenerator');
-const mailer = require('./mailer');
+const { sendEmailNotificationAboutNewShows } = require('./sendEmailNotificationAboutNewShows');
+const puppetShow = require('./puppet-show-crawler/puppetShow');
+const contentGenerator = require('./email-contact-generator/emailContentGenerator');
+const mailer = require('./utils/mailer');
 
-jest.mock('./puppetShow');
-jest.mock('./contentGenerator');
-jest.mock('./mailer');
+jest.mock('./puppet-show-crawler/puppetShow');
+jest.mock('./email-contact-generator/emailContentGenerator');
+jest.mock('./utils/mailer');
 
 describe('getEmailNotificationAboutNewShows', () => {
   it('sends an email when there are new shows', async () => {

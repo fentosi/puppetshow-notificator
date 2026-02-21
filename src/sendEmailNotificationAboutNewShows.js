@@ -1,6 +1,6 @@
-const { getNewShows } = require("./puppetShow");
-const contentGenerator = require("./contentGenerator");
-const mailer = require("./mailer");
+const { getNewShows } = require("./puppet-show-crawler/puppetShow");
+const contentGenerator = require("./email-contact-generator/emailContentGenerator");
+const mailer = require("./utils/mailer");
 
 exports.sendEmailNotificationAboutNewShows = async (ageGroups = [], dayGroups = [], dryRun = false) => {
   const newShows = await getNewShows(ageGroups, dayGroups);

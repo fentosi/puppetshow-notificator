@@ -1,7 +1,7 @@
-const groupHandler = require('./groupHandler');
+const groupHandler = require('../utils/group-handler/groupHandler');
 const cheerio = require("cheerio");
 const axios = require('axios');
-const showRepository = require('./showRepository');
+const showRepository = require('../utils/showRepository');
 
 const fetchData = async () => {
     const result = await axios.get(process.env.SITE_URL);

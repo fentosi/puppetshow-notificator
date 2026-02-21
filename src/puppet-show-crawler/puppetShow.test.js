@@ -1,6 +1,6 @@
 const { getNewShows } = require('./puppetShow');
 const axios = require('axios');
-const { Show } = require("../models/show-model");
+const { Show } = require("../../models/show-model");
 
 jest.mock('axios');
 
